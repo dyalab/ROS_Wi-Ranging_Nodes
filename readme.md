@@ -31,11 +31,11 @@ The following ROS parameters need to be set:
 
 # Running
 
-Launch the ROS nodes in two terminals:
+Launch the two ROS nodes with the launch script:
 ```bash
 cd rawr_ws/
 source ./devel/setup.bash
-rosrun rawr_pkg wifi-if.py
+roslaunch rawr_pkg rawr.launch
 ```
 
 and 
