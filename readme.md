@@ -38,14 +38,6 @@ source ./devel/setup.bash
 roslaunch rawr_pkg rawr.launch
 ```
 
-and 
-
-```bash
-cd rawr_ws/
-source ./devel/setup.bash
-rosrun rawr_pkg range.py
-```
-
 
 # Calibration
 
