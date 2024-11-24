@@ -6,14 +6,15 @@ import logging
 import argparse
 
 import rospy
-from rosmsg import KeyValue
+from std_msgs.msg import String
+
 
 class WifiIF:
     def __init__(self):
-        self.pub = rospy.Publisher("/rawr/rssi", KeyValue, queue_size=10)
+        self.pub = rospy.Publisher("/rawr/rssi", String, queue_size=10)
         rospy.init_node("rawr_wifiif", anonymous=False)
         self.rate_hz = 10
-        self._dev = rospy.get_param("adhoc-ifname")
+        self._dev = rospy.get_param("adhoc-ifname", "wlan0")
         self.macs_to_monitor = rospy.get_param("macs_to_monitor")
         self.mac_inactive_threshold_ms = rospy.get_param("mac_inactive_threshold_ms", 1000)
 
@@ -39,16 +40,16 @@ class WifiIF:
                 if not mac in stations:
                     continue
                 # if data is too stale
-                if int(stations[mac]['inactive time'].split(" ")) > self.mac_inactive_threshold_ms:
+                if int(stations[mac]["inactive time"].split(" ")) > self.mac_inactive_threshold_ms:
                     continue
                 # max rssi? only ant 0 or 1 or ...?
                 max_rssi = station[mac]["signal"].split(" ")[0]
-                self.pub.publish(KeyValue(mac, max_rssi))
+                self.pub.publish(String(mac + "," + str(max_rssi)))
 
             rate.sleep()
 
 
-def main()
+def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--verbose", "-v", action="store_true")
 
