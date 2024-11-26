@@ -1,0 +1,4 @@
+<launch>
+  <node name="wifi_if_node" pkg="rawr_pkg" type="wifi-if.py" output="screen"/>
+  <node name="range_node" pkg="rawr_pkg" type="range.py" output="screen"/>
+</launch>
