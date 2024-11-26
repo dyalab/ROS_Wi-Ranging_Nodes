@@ -5,6 +5,15 @@ Publish inter-node range in an ad-hoc network as ros topic(s)
 # Associated Paper
 "Using Wi-Fi to Improve Inter-Robot SLAM"
 
+
+Hallway "match" without our project.
+![Hallway bad][./images/Hallway910LamHostActualMapBetterBad-2024-10-27_21.46.24-ezgif.com-video-to-gif-converter.gif]
+
+
+Hallway match, using Wi-Fi to limit closure search space.
+![Hallway good][./images/Hallway910LamHostWifiMapBetter-2024-10-23_12.15.47-ezgif.com-video-to-gif-converter.gif]
+
+
 # Building
 
 These ROS nodes are written solely in python using `rospy`, and in the catkin ROS package format, so building is simple
