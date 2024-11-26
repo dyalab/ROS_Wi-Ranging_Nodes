@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import logging
@@ -33,6 +33,9 @@ class RangeLog:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--verbose", "-v", action="store_true")
+    ap.add_argument("name", help="ignored, required for compat")
+    ap.add_argument("log", help="ignored, required for compat")
+
 
     args = ap.parse_args()
     level = logging.DEBUG if args.verbose else logging.INFO

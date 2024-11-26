@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # requires 3.6+. which you have, right? because its 2024
 from subprocess import run, PIPE
@@ -15,7 +15,7 @@ class WifiIF:
         rospy.init_node("rawr_wifiif", anonymous=False)
         self.rate_hz = 10
         self._dev = rospy.get_param("adhoc-ifname", "wlan0")
-        self.macs_to_monitor = rospy.get_param("macs_to_monitor")
+        self.macs_to_monitor = rospy.get_param("macs_to_monitor", [])
         self.mac_inactive_threshold_ms = rospy.get_param("mac_inactive_threshold_ms", 1000)
 
     def run(self):
@@ -40,10 +40,10 @@ class WifiIF:
                 if not mac in stations:
                     continue
                 # if data is too stale
-                if int(stations[mac]["inactive time"].split(" ")) > self.mac_inactive_threshold_ms:
+                if int(stations[mac]["inactive time"].split(" ")[0]) > self.mac_inactive_threshold_ms:
                     continue
                 # max rssi? only ant 0 or 1 or ...?
-                max_rssi = station[mac]["signal"].split(" ")[0]
+                max_rssi = stations[mac]["signal"].split(" ")[0]
                 self.pub.publish(String(mac + "," + str(max_rssi)))
 
             rate.sleep()
@@ -52,6 +52,8 @@ class WifiIF:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--verbose", "-v", action="store_true")
+    ap.add_argument("name", help="ignored, required for compat")
+    ap.add_argument("log", help="ignored, required for compat")
 
     args = ap.parse_args()
     level = logging.DEBUG if args.verbose else logging.INFO
